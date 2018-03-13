@@ -21,7 +21,6 @@ import (
 	log "github.com/sirupsen/logrus"
 
 	apiv2 "github.com/projectcalico/libcalico-go/lib/apis/v2"
-	"github.com/projectcalico/libcalico-go/lib/backend/k8s/conversion"
 	"github.com/projectcalico/libcalico-go/lib/backend/model"
 	cnet "github.com/projectcalico/libcalico-go/lib/net"
 )
@@ -64,7 +63,7 @@ func RuleAPIV2ToBackend(ar apiv2.Rule, ns string) model.Rule {
 			"NotSelector": ar.Source.NotSelector,
 		})
 		logCxt.Debug("Maybe update source Selector to include namespace")
-		if !strings.Contains(ar.Source.Selector, conversion.NamespaceLabelPrefix) {
+		if !strings.Contains(ar.Source.Selector, "pcns") {
 			logCxt.Debug("Updating source selector")
 			if ar.Source.Selector == "" {
 				ar.Source.Selector = nsSelector
@@ -80,7 +79,7 @@ func RuleAPIV2ToBackend(ar apiv2.Rule, ns string) model.Rule {
 			"NotSelector": ar.Destination.NotSelector,
 		})
 		logCxt.Debug("Maybe update Destination Selector to include namespace")
-		if !strings.Contains(ar.Destination.Selector, conversion.NamespaceLabelPrefix) {
+		if !strings.Contains(ar.Destination.Selector, "pcns") {
 			logCxt.Debug("Updating Destination selector")
 			if ar.Destination.Selector == "" {
 				ar.Destination.Selector = nsSelector
