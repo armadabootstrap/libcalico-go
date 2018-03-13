@@ -21,7 +21,6 @@ import (
 	"github.com/projectcalico/libcalico-go/lib/apiconfig"
 	bapi "github.com/projectcalico/libcalico-go/lib/backend/api"
 	"github.com/projectcalico/libcalico-go/lib/backend/etcdv3"
-	"github.com/projectcalico/libcalico-go/lib/backend/k8s"
 	log "github.com/sirupsen/logrus"
 )
 
@@ -31,8 +30,6 @@ func NewClient(config apiconfig.CalicoAPIConfig) (c bapi.Client, err error) {
 	switch config.Spec.DatastoreType {
 	case apiconfig.EtcdV3:
 		c, err = etcdv3.NewEtcdV3Client(&config.Spec.EtcdConfig)
-	case apiconfig.Kubernetes:
-		c, err = k8s.NewKubeClient(&config.Spec.KubeConfig)
 	default:
 		err = errors.New(fmt.Sprintf("Unknown datastore type: %v",
 			config.Spec.DatastoreType))
